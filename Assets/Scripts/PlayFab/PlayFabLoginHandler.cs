@@ -1,23 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using PlayFab;
 using PlayFab.ClientModels;
 
-public class Player_Login : MonoBehaviour
+public class PlayFabLoginHandler 
 {
-    private string userID;
-
-    public void OnIDFieldChange(string userID)
+    public void OnSubmitLogin(string userName)
     {
-        this.userID = userID;
-        Debug.Log(userID.ToString());
-    }
-
-    public void OnSubmitLogin()
-    {
-        Debug.Log("Submitting login..." + userID);
-        LoginWithCustomID(userID);
+        Debug.Log("Submitting login..." + userName);
+        LoginWithCustomID(userName);
     }
 
     public void RegisterWithEmailRequest(string userName)
