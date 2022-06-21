@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DevAccountEmail: neilsuttie@gmail.com
   DevAccountToken: 6h4dkqx8kzer3u3jrk311xnc5sgr153ttbp8gd7z5ig78tcx47ms1qiwae8eahctm1et4ow7ueti41xyb8bgssxf914i9ey3fcha38mdd3y14xnkh15r1rtrgwu9np4f1n15oukkq4is7znftyj7sm4bbmys6hnwirwn8fd96san3trn63qobttr3aoqo3erb6psicg3
-  SelectedStudio: 
+  SelectedStudio: My Game Studio
   SdkPath: Assets/PlayFabSDK
   EdExPath: 
   LocalCloudScriptPath: 
   PanelIsShown: 0
-  curMainMenuIdx: 0
+  curMainMenuIdx: 1
   curSubMenuIdx: 0
