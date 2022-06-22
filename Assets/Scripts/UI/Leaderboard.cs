@@ -15,8 +15,10 @@ public class Leaderboard : MonoBehaviour
 	public bool forcePlayerDisplay;
 	public bool displayPlayer = true;
 
-	//Used to toggle leaderboards
+
+	[Header("Global LeaderBoard Fields")]
 	public Button GlobalButton;
+	public string StatisticsName = "HighScore";
 	//Used to manage state of the leaderboard
 	public bool IsGlobalLeaderboard = false;
 	//Max global leader score
@@ -119,7 +121,7 @@ public class Leaderboard : MonoBehaviour
 	{
 		PlayFabClientAPI.GetLeaderboard(new GetLeaderboardRequest
 		{
-			StatisticName = "HighScore",
+			StatisticName = StatisticsName,
 			StartPosition = 0,
 			MaxResultsCount = maxGlobalScores
 		}, result => DisplayLeaderboard(result), FailureCallback);
@@ -139,7 +141,7 @@ public class Leaderboard : MonoBehaviour
 
 	private void PopulateGlobal(List<PlayerLeaderboardEntry> resultLeaderboard)
 	{
-		playerEntry.transform.SetAsLastSibling();
+		playerEntry.transform.SetSiblingIndex(resultLeaderboard.Count);
 
 		//clear all entries and set data.
 		for (int i = 0; i < entriesCount; ++i)
@@ -149,15 +151,18 @@ public class Leaderboard : MonoBehaviour
 
 			if (i >= resultLeaderboard.Count)
 			{
-				hs.playerName.text = string.Empty;
-				hs.number.text = string.Empty;
-				hs.score.text = string.Empty;
+				if (!hs.Equals(playerEntry))
+				{
+					hs.playerName.text = string.Empty;
+					hs.number.text = string.Empty;
+					hs.score.text = string.Empty;
+				}
 			}
 			else
 			{
 				var lbEntry = resultLeaderboard[i];
 				hs.playerName.text = !string.IsNullOrEmpty(lbEntry.DisplayName) ? lbEntry.DisplayName : lbEntry.PlayFabId;
-				hs.number.text = lbEntry.Position.ToString("00");
+				hs.number.text = lbEntry.Position.ToString("");
 				hs.score.text = lbEntry.StatValue.ToString("000");
 			}
 		}

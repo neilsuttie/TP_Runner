@@ -27,10 +27,12 @@ public class GameOverState : AState
     {
         canvas.gameObject.SetActive(true);
 
-		miniLeaderboard.playerEntry.inputName.text = PlayerData.instance.previousName;
+		miniLeaderboard.playerEntry.inputName.text = PlayFabManager.UserDisplayName;
+        miniLeaderboard.playerEntry.inputName.DeactivateInputField(); //Lock this for current version. We want a single entry per player
 		
 		miniLeaderboard.playerEntry.score.text = trackManager.score.ToString();
-        miniLeaderboard.Populate();
+        //miniLeaderboard.Populate();
+        miniLeaderboard.OpenGlobal();
 
         if (PlayerData.instance.AnyMissionComplete())
             StartCoroutine(missionPopup.Open());
@@ -66,10 +68,10 @@ public class GameOverState : AState
 	{
 		fullLeaderboard.forcePlayerDisplay = false;
 		fullLeaderboard.displayPlayer = true;
-		fullLeaderboard.playerEntry.playerName.text = miniLeaderboard.playerEntry.inputName.text;
+		fullLeaderboard.playerEntry.playerName.text = PlayFabManager.UserDisplayName;
 		fullLeaderboard.playerEntry.score.text = trackManager.score.ToString();
 
-		fullLeaderboard.Open();
+        fullLeaderboard.OpenGlobal();
     }
 
 	public void GoToStore()
@@ -134,11 +136,11 @@ public class GameOverState : AState
     {
 		if(miniLeaderboard.playerEntry.inputName.text == "")
 		{
-			miniLeaderboard.playerEntry.inputName.text = "Trash Cat";
+			miniLeaderboard.playerEntry.inputName.text = PlayFabManager.UserDisplayName;
 		}
 		else
 		{
-			PlayerData.instance.previousName = miniLeaderboard.playerEntry.inputName.text;
+			PlayerData.instance.previousName = PlayFabManager.UserDisplayName;
 		}
 
         PlayerData.instance.InsertScore(trackManager.score, miniLeaderboard.playerEntry.inputName.text );

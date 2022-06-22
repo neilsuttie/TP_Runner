@@ -22,37 +22,7 @@ public class GameManager : MonoBehaviour
     protected List<AState> m_StateStack = new List<AState>();
     protected Dictionary<string, AState> m_StateDict = new Dictionary<string, AState>();
 
-    //Handles player authentication and login
-    private PlayFabAuthService authService;
-    public GetPlayerCombinedInfoRequestParams InfoRequestParams;
-
-    /*
-    private void Awake()
-    {
-        authService = new PlayFabAuthService();
-        authService.InfoRequestParams = InfoRequestParams;
-        PlayFabAuthService.OnDisplayAuthentication += OnDisplayAuthentication;
-        PlayFabAuthService.OnLoginSuccess += OnLoginSuccess;
-        authService.Authenticate();
-    }
-
-    private void OnLoginSuccess(LoginResult success)
-    {
-        Debug.LogFormat("Player {0} Authenticated Successfully", success.PlayFabId);
-
-        //Create in PlayerData to detect new users
-        PlayerData.IsNewUser = success.NewlyCreated;
-        PlayerData.LoginUserData = success.InfoResultPayload.UserData;
-        OnPlayFabEnabled();
-        MusicPlayer.StartMusicSystem();
-    }
-
-    private void OnDisplayAuthentication()
-    {
-        authService.Authenticate(Authtypes.Silent);
-    }
-    */
-
+    //Moved this from OnEnabled since it's no longer the entry state of the application
     protected void Awake()
     {
         PlayerData.Create();
