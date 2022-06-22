@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.IO;
 using System.Collections.Generic;
+using PlayFab.ClientModels;
 #if UNITY_ANALYTICS
 using UnityEngine.Analytics;
 #endif
@@ -31,6 +32,8 @@ public class PlayerData
 
     protected string saveFile = "";
 
+    public static bool IsNewUser;
+    public static Dictionary<string, UserDataRecord> LoginUserData = new Dictionary<string, UserDataRecord>();
 
     public int coins;
     public int premium;
@@ -192,6 +195,7 @@ public class PlayerData
 		entry.name = name;
 
 		highscores.Insert(GetScorePlace(score), entry);
+ 
 
         // Keep only the 10 best scores.
         while (highscores.Count > 10)

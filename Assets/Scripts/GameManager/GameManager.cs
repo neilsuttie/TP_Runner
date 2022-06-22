@@ -3,6 +3,8 @@ using System.Collections.Generic;
 #if UNITY_ANALYTICS
 using UnityEngine.Analytics;
 #endif
+using PlayFab;
+using PlayFab.ClientModels;
 
 /// <summary>
 /// The Game manager is a state machine, that will switch between state according to current gamestate.
@@ -20,7 +22,38 @@ public class GameManager : MonoBehaviour
     protected List<AState> m_StateStack = new List<AState>();
     protected Dictionary<string, AState> m_StateDict = new Dictionary<string, AState>();
 
-    protected void OnEnable()
+    //Handles player authentication and login
+    private PlayFabAuthService authService;
+    public GetPlayerCombinedInfoRequestParams InfoRequestParams;
+
+    /*
+    private void Awake()
+    {
+        authService = new PlayFabAuthService();
+        authService.InfoRequestParams = InfoRequestParams;
+        PlayFabAuthService.OnDisplayAuthentication += OnDisplayAuthentication;
+        PlayFabAuthService.OnLoginSuccess += OnLoginSuccess;
+        authService.Authenticate();
+    }
+
+    private void OnLoginSuccess(LoginResult success)
+    {
+        Debug.LogFormat("Player {0} Authenticated Successfully", success.PlayFabId);
+
+        //Create in PlayerData to detect new users
+        PlayerData.IsNewUser = success.NewlyCreated;
+        PlayerData.LoginUserData = success.InfoResultPayload.UserData;
+        OnPlayFabEnabled();
+        MusicPlayer.StartMusicSystem();
+    }
+
+    private void OnDisplayAuthentication()
+    {
+        authService.Authenticate(Authtypes.Silent);
+    }
+    */
+
+    protected void Awake()
     {
         PlayerData.Create();
 
