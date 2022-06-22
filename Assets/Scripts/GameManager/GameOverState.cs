@@ -31,8 +31,8 @@ public class GameOverState : AState
         miniLeaderboard.playerEntry.inputName.DeactivateInputField(); //Lock this for current version. We want a single entry per player
 		
 		miniLeaderboard.playerEntry.score.text = trackManager.score.ToString();
-        //miniLeaderboard.Populate();
-        miniLeaderboard.OpenGlobal();
+        miniLeaderboard.Populate();
+        //miniLeaderboard.OpenGlobal();
 
         if (PlayerData.instance.AnyMissionComplete())
             StartCoroutine(missionPopup.Open());
@@ -71,7 +71,7 @@ public class GameOverState : AState
 		fullLeaderboard.playerEntry.playerName.text = PlayFabManager.UserDisplayName;
 		fullLeaderboard.playerEntry.score.text = trackManager.score.ToString();
 
-        fullLeaderboard.OpenGlobal();
+        fullLeaderboard.Open();
     }
 
 	public void GoToStore()
@@ -145,7 +145,7 @@ public class GameOverState : AState
 
         PlayerData.instance.InsertScore(trackManager.score, miniLeaderboard.playerEntry.inputName.text );
         //Submit score to the global rankings!
-        SubmitScore(trackManager.score);
+        PlayFabManager.SubmitScore(trackManager.score);
 
         CharacterCollider.DeathEvent de = trackManager.characterController.characterCollider.deathData;
         //register data to analytics
@@ -165,30 +165,4 @@ public class GameOverState : AState
 
         trackManager.End();
     }
-
-    public static void SubmitScore(int playerScore)
-    {
-        PlayFabClientAPI.UpdatePlayerStatistics(new UpdatePlayerStatisticsRequest
-        {
-            Statistics = new List<StatisticUpdate> {
-            new StatisticUpdate {
-                StatisticName = "HighScore",
-                Value = playerScore
-            }
-        }
-        }, result => OnStatisticsUpdated(result), FailureCallback);
-    }
-
-    private static void OnStatisticsUpdated(UpdatePlayerStatisticsResult updateResult)
-    {
-        Debug.Log("Successfully submitted high score");
-    }
-
-    private static void FailureCallback(PlayFabError error)
-    {
-        Debug.LogWarning("Something went wrong with your API call. Here's some debug information:");
-        Debug.LogError(error.GenerateErrorReport());
-    }
-
-    //----------------
 }

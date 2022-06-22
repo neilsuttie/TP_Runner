@@ -19,6 +19,9 @@ public static class PlayFabManager
     // The user's Title specific DisplayName
     public static string UserDisplayName = null;
 
+    //The highscore table
+    public static string highScoreTable = "HighScore";
+
     ////////////////////////////////////////////////////////////////
     /// Load the user's account info to get their DisplayName
     /// 
@@ -140,6 +143,32 @@ public static class PlayFabManager
             }
             );
     }
+
+    #region SubmitScore
+    public static void SubmitScore(int playerScore)
+    {
+        PlayFabClientAPI.UpdatePlayerStatistics(new UpdatePlayerStatisticsRequest
+        {
+            Statistics = new List<StatisticUpdate> {
+            new StatisticUpdate {
+                StatisticName = highScoreTable,
+                Value = playerScore
+            }
+        }
+        }, result => OnStatisticsUpdated(result), FailureCallback);
+    }
+
+    private static void OnStatisticsUpdated(UpdatePlayerStatisticsResult updateResult)
+    {
+        Debug.Log("Successfully submitted high score");
+    }
+
+    private static void FailureCallback(PlayFabError error)
+    {
+        Debug.LogWarning("Something went wrong with your API call. Here's some debug information:");
+        Debug.LogError(error.GenerateErrorReport());
+    }
+    #endregion
 
     ////////////////////////////////////////////////////////////////
     /// Load the game's server configured data

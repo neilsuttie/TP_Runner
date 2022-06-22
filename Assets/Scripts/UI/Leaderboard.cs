@@ -141,7 +141,7 @@ public class Leaderboard : MonoBehaviour
 
 	private void PopulateGlobal(List<PlayerLeaderboardEntry> resultLeaderboard)
 	{
-		playerEntry.transform.SetSiblingIndex(resultLeaderboard.Count);
+		playerEntry.transform.SetAsLastSibling();
 
 		//clear all entries and set data.
 		for (int i = 0; i < entriesCount; ++i)
