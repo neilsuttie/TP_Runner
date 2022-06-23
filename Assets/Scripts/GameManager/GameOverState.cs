@@ -29,10 +29,13 @@ public class GameOverState : AState
 
 		miniLeaderboard.playerEntry.inputName.text = PlayFabManager.UserDisplayName;
         miniLeaderboard.playerEntry.inputName.DeactivateInputField(); //Lock this for current version. We want a single entry per player
-		
-		miniLeaderboard.playerEntry.score.text = trackManager.score.ToString();
-        miniLeaderboard.Populate();
-        //miniLeaderboard.OpenGlobal();
+
+        //Submit score to the global rankings!
+        PlayFabManager.SubmitScore(trackManager.score);
+
+        miniLeaderboard.playerEntry.score.text = trackManager.score.ToString();
+        //miniLeaderboard.Populate();
+        miniLeaderboard.OpenGlobal();
 
         if (PlayerData.instance.AnyMissionComplete())
             StartCoroutine(missionPopup.Open());
@@ -143,9 +146,7 @@ public class GameOverState : AState
 			PlayerData.instance.previousName = PlayFabManager.UserDisplayName;
 		}
 
-        PlayerData.instance.InsertScore(trackManager.score, miniLeaderboard.playerEntry.inputName.text );
-        //Submit score to the global rankings!
-        PlayFabManager.SubmitScore(trackManager.score);
+        PlayerData.instance.InsertScore(trackManager.score, PlayFabManager.UserDisplayName );
 
         CharacterCollider.DeathEvent de = trackManager.characterController.characterCollider.deathData;
         //register data to analytics

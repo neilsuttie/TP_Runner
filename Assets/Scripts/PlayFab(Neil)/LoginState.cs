@@ -121,7 +121,7 @@ public class LoginState : AState
             {
                 //otherwise prompt the user to pick a name
                 userNameInputField.text = "Enter a username...";
-                errorOutput.text = "New user account. Please pick a name to continue.";
+                errorOutput.text = "New user account. Please enter a name to register";
                 //Enable text field input
                 userNameInputField.interactable = true;
 
@@ -142,6 +142,10 @@ public class LoginState : AState
         //Update the player name in the local player settings and on the back-end.
         PlayFabManager.SetUserDisplayName(displayName);
         PlayerData.instance.previousName = displayName;
+        userNameInputField.interactable = false;
+
+        //Assume sucess for now
+        errorOutput.text = $"Welcome {displayName} press the Play button to continue";
 
         //Show play button to allow the player to continue.
         loginButton.gameObject.SetActive(false);

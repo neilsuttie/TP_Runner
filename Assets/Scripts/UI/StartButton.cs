@@ -13,6 +13,11 @@ public class StartButton : MonoBehaviour
 {
     public void StartGame()
     {
+        if(PlayerData.instance==null)
+        {
+            PlayerData.Create();
+        }
+
         if (PlayerData.instance.ftueLevel == 0)
         {
             PlayerData.instance.ftueLevel = 1;

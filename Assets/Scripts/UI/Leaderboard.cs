@@ -37,6 +37,12 @@ public class Leaderboard : MonoBehaviour
 		RequestOnlineLeaderboard();
     }
 
+	public void OpenGlobalFull()
+    {
+		gameObject.SetActive(true);
+		RequestOnlineLeaderboard();
+	}
+
 	public void Close()
 	{
 		gameObject.SetActive(false);
@@ -141,7 +147,8 @@ public class Leaderboard : MonoBehaviour
 
 	private void PopulateGlobal(List<PlayerLeaderboardEntry> resultLeaderboard)
 	{
-		playerEntry.transform.SetAsLastSibling();
+		//Just use the global ranking
+		playerEntry.gameObject.SetActive(false);
 
 		//clear all entries and set data.
 		for (int i = 0; i < entriesCount; ++i)
@@ -162,9 +169,12 @@ public class Leaderboard : MonoBehaviour
 			{
 				var lbEntry = resultLeaderboard[i];
 				hs.playerName.text = !string.IsNullOrEmpty(lbEntry.DisplayName) ? lbEntry.DisplayName : lbEntry.PlayFabId;
-				hs.number.text = lbEntry.Position.ToString("");
+				int pos = lbEntry.Position + 1;
+				hs.number.text = pos.ToString("00");
 				hs.score.text = lbEntry.StatValue.ToString("000");
 			}
 		}
+
+
 	}
 }

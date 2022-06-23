@@ -18,6 +18,7 @@ public static class PlayFabManager
 
     // The user's Title specific DisplayName
     public static string UserDisplayName = null;
+    public static bool failedNameSetting = false;
 
     //The highscore table
     public static string highScoreTable = "HighScore";
