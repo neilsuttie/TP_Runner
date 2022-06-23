@@ -9,8 +9,12 @@ using UnityEngine.UI;
 public class Leaderboard : MonoBehaviour
 {
 	public RectTransform entriesRoot;
+
+	[Header("Number of Entries to Display")]
+	[Range(1,10)]
 	public int entriesCount;
 
+	[Header("Do we display player entries?")]
 	public HighscoreUI playerEntry;
 	public bool forcePlayerDisplay;
 	public bool displayPlayer = true;
@@ -21,11 +25,9 @@ public class Leaderboard : MonoBehaviour
 	public string StatisticsName = "HighScore";
 	//Used to manage state of the leaderboard
 	public bool IsGlobalLeaderboard = false;
-	//Max global leader score
-	[Range(1, 10)]
-	public int maxGlobalScores = 3;
 
-	public void Open()
+    #region EntryAndExitPoints
+    public void Open()
 	{
 		gameObject.SetActive(true);
 
@@ -37,18 +39,18 @@ public class Leaderboard : MonoBehaviour
 		RequestOnlineLeaderboard();
     }
 
-	public void OpenGlobalFull()
-    {
-		gameObject.SetActive(true);
-		RequestOnlineLeaderboard();
-	}
-
 	public void Close()
 	{
 		gameObject.SetActive(false);
 	}
+    #endregion
 
-	public void Populate()
+    #region PopulateLists
+
+    /// <summary>
+    /// Populate the list with locally saved entries.
+    /// </summary>
+    public void Populate()
 	{
 		// Start by making all entries enabled & putting player entry last again.
 		playerEntry.transform.SetAsLastSibling();
@@ -109,7 +111,38 @@ public class Leaderboard : MonoBehaviour
 		playerEntry.number.text = (place + 1).ToString();
 	}
 
-	public void ToggleOpenGlobal()
+
+	private void PopulateGlobal(List<PlayerLeaderboardEntry> resultLeaderboard)
+	{
+		//Just use the global ranking
+		playerEntry.transform.SetAsLastSibling();
+		playerEntry.gameObject.SetActive(false);
+
+		//clear all entries and set data.
+		for (int i = 0; i <= entriesCount; i++)
+		{
+			HighscoreUI hs = entriesRoot.GetChild(i).GetComponent<HighscoreUI>();
+			entriesRoot.GetChild(i).gameObject.SetActive(true);
+
+			if (i >= resultLeaderboard.Count)
+			{
+				hs.playerName.text = string.Empty;
+				hs.number.text = string.Empty;
+				hs.score.text = string.Empty;
+			}
+			else
+			{
+				var lbEntry = resultLeaderboard[i];
+				hs.playerName.text = !string.IsNullOrEmpty(lbEntry.DisplayName) ? lbEntry.DisplayName : lbEntry.PlayFabId;
+				int pos = lbEntry.Position + 1;
+				hs.number.text = pos.ToString("00");
+				hs.score.text = lbEntry.StatValue.ToString("000");
+			}
+		}
+	}
+    #endregion
+
+    public void ToggleOpenGlobal()
 	{
 		if (IsGlobalLeaderboard)
 		{
@@ -123,18 +156,20 @@ public class Leaderboard : MonoBehaviour
 		}
 	}
 
-	public void RequestOnlineLeaderboard()
+    #region PlayFabLeaderboardFunction
+    public void RequestOnlineLeaderboard()
 	{
 		PlayFabClientAPI.GetLeaderboard(new GetLeaderboardRequest
 		{
 			StatisticName = StatisticsName,
 			StartPosition = 0,
-			MaxResultsCount = maxGlobalScores
+			MaxResultsCount = entriesCount
 		}, result => DisplayLeaderboard(result), FailureCallback);
 	}
 
     private void DisplayLeaderboard(GetLeaderboardResult result)
     {
+		//We've successfully updated the online score. Populate the list.
 		IsGlobalLeaderboard = true;
 		PopulateGlobal(result.Leaderboard);
 	}
@@ -144,37 +179,5 @@ public class Leaderboard : MonoBehaviour
 		Debug.LogWarning("Something went wrong with your API call. Here's some debug information:");
 		Debug.LogError(error.GenerateErrorReport());
 	}
-
-	private void PopulateGlobal(List<PlayerLeaderboardEntry> resultLeaderboard)
-	{
-		//Just use the global ranking
-		playerEntry.gameObject.SetActive(false);
-
-		//clear all entries and set data.
-		for (int i = 0; i < entriesCount; ++i)
-		{
-			HighscoreUI hs = entriesRoot.GetChild(i).GetComponent<HighscoreUI>();
-			entriesRoot.GetChild(i).gameObject.SetActive(true);
-
-			if (i >= resultLeaderboard.Count)
-			{
-				if (!hs.Equals(playerEntry))
-				{
-					hs.playerName.text = string.Empty;
-					hs.number.text = string.Empty;
-					hs.score.text = string.Empty;
-				}
-			}
-			else
-			{
-				var lbEntry = resultLeaderboard[i];
-				hs.playerName.text = !string.IsNullOrEmpty(lbEntry.DisplayName) ? lbEntry.DisplayName : lbEntry.PlayFabId;
-				int pos = lbEntry.Position + 1;
-				hs.number.text = pos.ToString("00");
-				hs.score.text = lbEntry.StatValue.ToString("000");
-			}
-		}
-
-
-	}
+    #endregion
 }

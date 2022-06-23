@@ -777,6 +777,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Score (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 1000011217217016, guid: ac361d43768a861498da8046b83b94f5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 224000011673475834, guid: ac361d43768a861498da8046b83b94f5,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -6065,7 +6069,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &576403260
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6181,6 +6185,10 @@ PrefabInstance:
     - target: {fileID: 1000011217217016, guid: ac361d43768a861498da8046b83b94f5, type: 3}
       propertyPath: m_Name
       value: Score (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000011217217016, guid: ac361d43768a861498da8046b83b94f5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224000011673475834, guid: ac361d43768a861498da8046b83b94f5,
         type: 3}
@@ -9856,14 +9864,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   entriesRoot: {fileID: 859562870}
-  entriesCount: 6
+  entriesCount: 3
   playerEntry: {fileID: 576403260}
-  forcePlayerDisplay: 1
-  displayPlayer: 1
+  forcePlayerDisplay: 0
+  displayPlayer: 0
   GlobalButton: {fileID: 0}
   StatisticsName: HighScore
-  IsGlobalLeaderboard: 0
-  maxGlobalScores: 3
+  IsGlobalLeaderboard: 1
 --- !u!1001 &860597505
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10314,7 +10321,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &902125532
 RectTransform:
   m_ObjectHideFlags: 0
@@ -11620,6 +11627,10 @@ PrefabInstance:
     - target: {fileID: 1000011217217016, guid: ac361d43768a861498da8046b83b94f5, type: 3}
       propertyPath: m_Name
       value: Score (8)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000011217217016, guid: ac361d43768a861498da8046b83b94f5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224000011673475834, guid: ac361d43768a861498da8046b83b94f5,
         type: 3}
@@ -16793,6 +16804,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Score (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 1000011217217016, guid: ac361d43768a861498da8046b83b94f5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 224000011673475834, guid: ac361d43768a861498da8046b83b94f5,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -17042,6 +17057,10 @@ PrefabInstance:
     - target: {fileID: 1000011217217016, guid: ac361d43768a861498da8046b83b94f5, type: 3}
       propertyPath: m_Name
       value: Score (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000011217217016, guid: ac361d43768a861498da8046b83b94f5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224000011673475834, guid: ac361d43768a861498da8046b83b94f5,
         type: 3}
@@ -22434,6 +22453,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Score (9)
       objectReference: {fileID: 0}
+    - target: {fileID: 1000011217217016, guid: ac361d43768a861498da8046b83b94f5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 114000011220535570, guid: ac361d43768a861498da8046b83b94f5,
         type: 3}
       propertyPath: m_Text
@@ -24439,6 +24462,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Score (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 1000011217217016, guid: ac361d43768a861498da8046b83b94f5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 224000011673475834, guid: ac361d43768a861498da8046b83b94f5,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -24756,14 +24783,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   entriesRoot: {fileID: 1266069902}
-  entriesCount: 10
+  entriesCount: 3
   playerEntry: {fileID: 926798345}
   forcePlayerDisplay: 0
   displayPlayer: 1
   GlobalButton: {fileID: 1654585185}
   StatisticsName: HighScore
   IsGlobalLeaderboard: 0
-  maxGlobalScores: 3
 --- !u!1 &1822183923
 GameObject:
   m_ObjectHideFlags: 0

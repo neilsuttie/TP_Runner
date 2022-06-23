@@ -80,6 +80,33 @@ public static class PlayFabManager
             );
     }
 
+    #region SubmitScore
+    public static void SubmitScore(int playerScore)
+    {
+        PlayFabClientAPI.UpdatePlayerStatistics(new UpdatePlayerStatisticsRequest
+        {
+            Statistics = new List<StatisticUpdate> {
+            new StatisticUpdate {
+                StatisticName = highScoreTable,
+                Value = playerScore
+            }
+        }
+        }, result => OnStatisticsUpdated(result), FailureCallback);
+    }
+
+    private static void OnStatisticsUpdated(UpdatePlayerStatisticsResult updateResult)
+    {
+        Debug.Log("Successfully submitted high score");
+    }
+
+    private static void FailureCallback(PlayFabError error)
+    {
+        Debug.LogWarning("Something went wrong with your API call. Here's some debug information:");
+        Debug.LogError(error.GenerateErrorReport());
+    }
+    #endregion
+
+    #region UpdateStats
     ////////////////////////////////////////////////////////////////
     /// Update the user's game stats in bulk
     /// 
@@ -144,33 +171,9 @@ public static class PlayFabManager
             }
             );
     }
-
-    #region SubmitScore
-    public static void SubmitScore(int playerScore)
-    {
-        PlayFabClientAPI.UpdatePlayerStatistics(new UpdatePlayerStatisticsRequest
-        {
-            Statistics = new List<StatisticUpdate> {
-            new StatisticUpdate {
-                StatisticName = highScoreTable,
-                Value = playerScore
-            }
-        }
-        }, result => OnStatisticsUpdated(result), FailureCallback);
-    }
-
-    private static void OnStatisticsUpdated(UpdatePlayerStatisticsResult updateResult)
-    {
-        Debug.Log("Successfully submitted high score");
-    }
-
-    private static void FailureCallback(PlayFabError error)
-    {
-        Debug.LogWarning("Something went wrong with your API call. Here's some debug information:");
-        Debug.LogError(error.GenerateErrorReport());
-    }
     #endregion
 
+    #region LoadTitleData
     ////////////////////////////////////////////////////////////////
     /// Load the game's server configured data
     /// 
@@ -220,7 +223,9 @@ public static class PlayFabManager
 
         return null;
     }
+    #endregion
 
+    #region LoadUserData
     ////////////////////////////////////////////////////////////////
     /// Load the user's server data
     /// 
@@ -271,6 +276,9 @@ public static class PlayFabManager
     // Cache for user's server data
     private static Dictionary<string, UserDataRecord> UserData;
 
+    #endregion
+
+    #region StoreUserData
     ////////////////////////////////////////////////////////////////
     /// Write the user's data up to the server
     /// 
@@ -311,4 +319,5 @@ public static class PlayFabManager
             }
             );*/
     }
+    #endregion
 }

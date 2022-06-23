@@ -25,17 +25,21 @@ public class GameOverState : AState
 
     public override void Enter(AState from)
     {
-        canvas.gameObject.SetActive(true);
-
-		miniLeaderboard.playerEntry.inputName.text = PlayFabManager.UserDisplayName;
-        miniLeaderboard.playerEntry.inputName.DeactivateInputField(); //Lock this for current version. We want a single entry per player
-
         //Submit score to the global rankings!
         PlayFabManager.SubmitScore(trackManager.score);
 
+        canvas.gameObject.SetActive(true);
+
+		miniLeaderboard.playerEntry.inputName.text = PlayFabManager.UserDisplayName;
         miniLeaderboard.playerEntry.score.text = trackManager.score.ToString();
+
         //miniLeaderboard.Populate();
         miniLeaderboard.OpenGlobal();
+
+        //not using this for the moment so make sure it's off. TODO: Remove to avoid confusion.
+        miniLeaderboard.forcePlayerDisplay = false;
+        miniLeaderboard.displayPlayer = false;
+        miniLeaderboard.playerEntry.gameObject.SetActive(false);
 
         if (PlayerData.instance.AnyMissionComplete())
             StartCoroutine(missionPopup.Open());
@@ -69,10 +73,10 @@ public class GameOverState : AState
 
 	public void OpenLeaderboard()
 	{
-		fullLeaderboard.forcePlayerDisplay = false;
-		fullLeaderboard.displayPlayer = true;
-		fullLeaderboard.playerEntry.playerName.text = PlayFabManager.UserDisplayName;
-		fullLeaderboard.playerEntry.score.text = trackManager.score.ToString();
+        fullLeaderboard.playerEntry.playerName.text = PlayFabManager.UserDisplayName;
+        fullLeaderboard.playerEntry.score.text = trackManager.score.ToString();
+        fullLeaderboard.forcePlayerDisplay = false;
+		fullLeaderboard.displayPlayer = false;
 
         fullLeaderboard.Open();
     }

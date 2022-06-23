@@ -23,6 +23,7 @@ public class LoginState : AState
     private PlayFabAuthService authService;
     public GetPlayerCombinedInfoRequestParams InfoRequestParams;
 
+    #region UnityEventFunctions
     private void Awake()
     {
         //We will just assume silent authentication for the sake of the Demo and auto login on Awake
@@ -32,8 +33,9 @@ public class LoginState : AState
         PlayFabAuthService.OnLoginSuccess += OnLoginSuccess;
         authService.Authenticate();
     }
+    #endregion
 
-    #region PlayFabEvents
+    #region PlayFabAuthenticationEvents
     private void OnLoginSuccess(LoginResult success)
     {
         Debug.LogFormat("Player {0} Authenticated Successfully", success.PlayFabId);
@@ -61,20 +63,26 @@ public class LoginState : AState
     public override void Enter(AState from)
     {
         loginCanvas.gameObject.SetActive(true);
-        loginButton.enabled = false;
+        //Input field
         userNameInputField.enabled = true;
         //Keep the field deaactived until we fail to load a user account.
         userNameInputField.DeactivateInputField();
+        
+        //Disable login button until data is loaded
+        loginButton.enabled = false;
+ 
         playGameButton.gameObject.SetActive(false);
     }
 
     public override void Exit(AState to)
     {
+        loginCanvas.gameObject.SetActive(false);
         loginButton.enabled = false;
         loginButton.gameObject.SetActive(false);
+
         userNameInputField.DeactivateInputField();
         userNameInputField.enabled = false;
-        loginCanvas.gameObject.SetActive(false);
+
         playGameButton.enabled = false;
         playGameButton.gameObject.SetActive(false);
     }
@@ -92,7 +100,7 @@ public class LoginState : AState
     }
     #endregion
 
-    #region GameStateManagment
+    #region NavigateGameStates
     public void GoToLoadOut()
     {
         GameManager.instance.SwitchState("Loadout");
@@ -114,6 +122,8 @@ public class LoginState : AState
 
                 //Swap to the play button
                 loginButton.gameObject.SetActive(false);
+
+                playGameButton.enabled = true;
                 playGameButton.gameObject.SetActive(true);
 
             }
@@ -122,9 +132,8 @@ public class LoginState : AState
                 //otherwise prompt the user to pick a name
                 userNameInputField.text = "Enter a username...";
                 errorOutput.text = "New user account. Please enter a name to register";
-                //Enable text field input
+                //Enable text field for player input
                 userNameInputField.interactable = true;
-
             }
 
             HaveSetUserName = true;
@@ -141,7 +150,9 @@ public class LoginState : AState
     {
         //Update the player name in the local player settings and on the back-end.
         PlayFabManager.SetUserDisplayName(displayName);
+        //Set the name used in the local file
         PlayerData.instance.previousName = displayName;
+        //Disable changes once locked in.
         userNameInputField.interactable = false;
 
         //Assume sucess for now
@@ -149,6 +160,8 @@ public class LoginState : AState
 
         //Show play button to allow the player to continue.
         loginButton.gameObject.SetActive(false);
+
+        playGameButton.enabled = true;
         playGameButton.gameObject.SetActive(true);
     }
     #endregion
